@@ -760,8 +760,6 @@ spec:
               value: /credentials/kubeconfig
             - name: SNAPSHOT
               value: $(tasks.generate-snapshot.results.SNAPSHOT)
-#            - name: LLMISVC_CONTROLLER_IMAGE
-#              value: quay.io/opendatahub/llmisvc-controller:$(tasks.rhoai-init.results.mandatory-tag) #$(tasks.build-llmisvc-controller.results.IMAGE_REF)
             - name: SKLEARN_IMAGE
               value: quay.io/opendatahub/sklearn-serving-runtime:$(tasks.rhoai-init.results.mandatory-tag) #$(tasks.build-sklearn-serving-runtime.results.IMAGE_REF)
             - name: CUSTOM_TRANSFORMER_IMAGE
@@ -800,6 +798,9 @@ spec:
 
             COMPONENT_NAME=kserve-storage-initializer-ci
             export STORAGE_INITIALIZER_IMAGE=$(jq -r --arg component_name "${COMPONENT_NAME}" '.[$component_name].image' <<< "${SNAPSHOT}")
+
+            COMPONENT_NAME=odh-kserve-llmisvc-controller-ci
+            export LLMISVC_CONTROLLER_IMAGE=$(jq -r --arg component_name "${COMPONENT_NAME}" '.[$component_name].image' <<< "${SNAPSHOT}")
 
             export GITHUB_SHA=stable
             make e2e-graph-ocp E2E_PARALLELISM=2 RUNNING_LOCAL=false
@@ -946,8 +947,6 @@ spec:
               value: /credentials/kubeconfig
             - name: SNAPSHOT
               value: $(tasks.generate-snapshot.results.SNAPSHOT)
-#            - name: LLMISVC_CONTROLLER_IMAGE
-#              value: quay.io/opendatahub/llmisvc-controller:$(tasks.rhoai-init.results.mandatory-tag) #$(tasks.build-llmisvc-controller.results.IMAGE_REF)
             - name: SKLEARN_IMAGE
               value: quay.io/opendatahub/sklearn-serving-runtime:$(tasks.rhoai-init.results.mandatory-tag) #$(tasks.build-sklearn-serving-runtime.results.IMAGE_REF)
             - name: CUSTOM_TRANSFORMER_IMAGE
@@ -986,6 +985,9 @@ spec:
 
             COMPONENT_NAME=kserve-storage-initializer-ci
             export STORAGE_INITIALIZER_IMAGE=$(jq -r --arg component_name "${COMPONENT_NAME}" '.[$component_name].image' <<< "${SNAPSHOT}")
+
+            COMPONENT_NAME=odh-kserve-llmisvc-controller-ci
+            export LLMISVC_CONTROLLER_IMAGE=$(jq -r --arg component_name "${COMPONENT_NAME}" '.[$component_name].image' <<< "${SNAPSHOT}")
 
             make e2e-raw-ocp E2E_PARALLELISM=2 RUNNING_LOCAL=false
             echo "success" > "$STATUS_FILE"
@@ -1129,8 +1131,6 @@ spec:
               value: /credentials/kubeconfig
             - name: SNAPSHOT
               value: $(tasks.generate-snapshot.results.SNAPSHOT)
-#            - name: LLMISVC_CONTROLLER_IMAGE
-#              value: quay.io/opendatahub/llmisvc-controller:$(tasks.rhoai-init.results.mandatory-tag) #$(tasks.build-llmisvc-controller.results.IMAGE_REF)
             - name: SKLEARN_IMAGE
               value: quay.io/opendatahub/sklearn-serving-runtime:$(tasks.rhoai-init.results.mandatory-tag) #$(tasks.build-sklearn-serving-runtime.results.IMAGE_REF)
             - name: CUSTOM_TRANSFORMER_IMAGE
@@ -1169,6 +1169,9 @@ spec:
 
             COMPONENT_NAME=kserve-storage-initializer-ci
             export STORAGE_INITIALIZER_IMAGE=$(jq -r --arg component_name "${COMPONENT_NAME}" '.[$component_name].image' <<< "${SNAPSHOT}")
+
+            COMPONENT_NAME=odh-kserve-llmisvc-controller-ci
+            export LLMISVC_CONTROLLER_IMAGE=$(jq -r --arg component_name "${COMPONENT_NAME}" '.[$component_name].image' <<< "${SNAPSHOT}")
 
             make e2e-predictor-ocp E2E_PARALLELISM=2 RUNNING_LOCAL=false
             echo "success" > "$STATUS_FILE"
