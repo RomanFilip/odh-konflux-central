@@ -8,9 +8,20 @@ spec:
     An integration test which provisions an ephemeral Hypershift cluster and runs
     kserve-module e2e tests against it.
   params:
-    - description: List of components in the group
+    - description: Components in the group; must include the module operator and all operands listed in the default.
       name: group-components
       type: string
+      default: >-
+        {
+          "kserve-agent-ci": "opendatahub/kserve-agent",
+          "kserve-controller-ci": "opendatahub/kserve-controller",
+          "kserve-router-ci": "opendatahub/kserve-router",
+          "kserve-storage-initializer-ci": "opendatahub/kserve-storage-initializer",
+          "odh-kserve-llmisvc-controller-ci": "opendatahub/odh-kserve-llmisvc-controller",
+          "odh-kserve-localmodel-controller-ci": "opendatahub/odh-kserve-localmodel-controller",
+          "odh-kserve-localmodelnode-agent-ci": "opendatahub/odh-kserve-localmodelnode-agent",
+          "odh-kserve-module-operator-ci": "opendatahub/odh-kserve-module-operator"
+        }
     - name: oci-artifacts-repo
       default: 'quay.io/opendatahub/odh-ci-artifacts'
       description: The OCI container used to store all test artifacts.
@@ -209,6 +220,27 @@ spec:
 
               COMPONENT_NAME=odh-kserve-module-operator-ci
               export MODULE_OPERATOR_IMAGE=$(jq -r --arg cn "${COMPONENT_NAME}" '.[$cn].image' <<< "${SNAPSHOT}")
+
+              COMPONENT_NAME=kserve-agent-ci
+              export KSERVE_AGENT_IMAGE=$(jq -r --arg cn "${COMPONENT_NAME}" '.[$cn].image' <<< "${SNAPSHOT}")
+
+              COMPONENT_NAME=kserve-controller-ci
+              export KSERVE_CONTROLLER_IMAGE=$(jq -r --arg cn "${COMPONENT_NAME}" '.[$cn].image' <<< "${SNAPSHOT}")
+
+              COMPONENT_NAME=kserve-router-ci
+              export KSERVE_ROUTER_IMAGE=$(jq -r --arg cn "${COMPONENT_NAME}" '.[$cn].image' <<< "${SNAPSHOT}")
+
+              COMPONENT_NAME=kserve-storage-initializer-ci
+              export STORAGE_INITIALIZER_IMAGE=$(jq -r --arg cn "${COMPONENT_NAME}" '.[$cn].image' <<< "${SNAPSHOT}")
+
+              COMPONENT_NAME=odh-kserve-llmisvc-controller-ci
+              export LLMISVC_CONTROLLER_IMAGE=$(jq -r --arg cn "${COMPONENT_NAME}" '.[$cn].image' <<< "${SNAPSHOT}")
+
+              COMPONENT_NAME=odh-kserve-localmodel-controller-ci
+              export LOCALMODEL_CONTROLLER_IMAGE=$(jq -r --arg cn "${COMPONENT_NAME}" '.[$cn].image' <<< "${SNAPSHOT}")
+
+              COMPONENT_NAME=odh-kserve-localmodelnode-agent-ci
+              export LOCALMODELNODE_AGENT_IMAGE=$(jq -r --arg cn "${COMPONENT_NAME}" '.[$cn].image' <<< "${SNAPSHOT}")
 
               make e2e-setup-kserve-module PLATFORM=ocp E2E_IMG=${MODULE_OPERATOR_IMAGE}
               make e2e-kserve-module
