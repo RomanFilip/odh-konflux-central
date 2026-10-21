@@ -28,7 +28,10 @@ spec:
     value: test/e2e/Dockerfile
   - name: path-context
     value: .
-  #add these additional params
+  - name: hermetic
+    value: "true"
+  - name: prefetch-input
+    value: '[{"type": "gomod", "path": "."}, {"type": "rpm"}]'
   - name: additional-tags
     value:
     - 'odh-pr-{{revision}}'
